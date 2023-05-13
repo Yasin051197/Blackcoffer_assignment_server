@@ -9,17 +9,20 @@ app.use(express.json())
 
 app.use(cors({origin:"*"}))
 
-
 app.get("/",async(req,res)=>{
+    try{
+       res.send('home')
+    }catch(err){
+        res.send({ msg: 'data not fond' })
+    }
+})
+
+app.post("/data",async(req,res)=>{
     try {
-        const users = await Data.find();
-        if (users.length<=0) {
-          res.send({ msg: 'Users not found' });
-        } else {
-          res.send(users);
-        }
+        let data=await Data.insertOne(req.body)
+            res.send("data posted")
       } catch (err) {
-        res.send({msg:"Error in finding users,try again"});
+        res.send({msg:err});
       }
 })
 

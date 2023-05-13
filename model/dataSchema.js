@@ -1,6 +1,10 @@
 const mongoose=require("mongoose")
 
 const dataSchema=new mongoose.Schema({
+    id:{
+        type: String,
+        unique:true
+    },
     intensity:Number,
     likelihood:Number,
     relevance:Number,
