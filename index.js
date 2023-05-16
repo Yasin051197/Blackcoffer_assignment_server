@@ -1,7 +1,9 @@
 const {connection}=require("./Config/db");
 const express=require("express")
 const cors=require("cors");
-const { Data } = require("./model/dataSchema");
+const {JsonData} = require("./model/jsonDataSchema")
+
+
 
 
 const app=express()
@@ -11,20 +13,22 @@ app.use(cors({origin:"*"}))
 
 app.get("/",async(req,res)=>{
     try{
-       res.send('home')
+        const data=await JsonData.find()
+       res.send(data)
     }catch(err){
         res.send({ msg: 'data not fond' })
     }
 })
 
 app.post("/data",async(req,res)=>{
-    try {
-        let data=await Data.insertOne(req.body)
-            res.send("data posted")
-      } catch (err) {
-        res.send({msg:err});
-      }
+    try{
+        const jsondata=await JsonData.insertMany(req.body)
+        res.send("posted")
+    }catch(err){
+        res.send(err)
+    }
 })
+
 
 app.listen(8080,async()=>{
 
